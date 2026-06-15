@@ -53,6 +53,9 @@ export const BoxInput = (props: {
 				setPosition(p => {
 					numbers.current[p] = n;
 					invokeSet();
+					if (props.direction === TypingDirection.LtoR && p + 1 === numbers.current.length || p === 0) {
+						props.nextExcercise();
+					}
 					return moveCursor(p, props.direction);
 				});
 			} else if (e.key === 'Backspace' || e.key === 'Delete') {
@@ -65,9 +68,9 @@ export const BoxInput = (props: {
 				setPosition(_ => props.direction === TypingDirection.LtoR ? 0 : props.positions - 1);
 			} else if (e.key === 'End') {
 				setPosition(_ => props.direction === TypingDirection.LtoR ? props.positions - 1 : 0);
-			} else if (e.key === 'PageDown' || e.key === 'ArrowDown') {
+			} else if (e.key === 'PageDown' || e.key === 'ArrowDown' || e.key === 'Enter' || (e.key === 'Tab' && !e.shiftKey)) {
 				props.nextExcercise();
-			} else if (e.key === 'PageUp' || e.key === 'ArrowUp') {
+			} else if (e.key === 'PageUp' || e.key === 'ArrowUp' || (e.key === 'Tab' && e.shiftKey)) {
 				props.prevExcercise();
 			} else if (e.key === 'x') {
 				setPosition(_ => {
@@ -78,6 +81,7 @@ export const BoxInput = (props: {
 			} else {
 				console.log('Event key:' + e.key);
 			}
+			e.preventDefault();
 			refresh();
 		};
 		document.addEventListener('keydown', handleKey);

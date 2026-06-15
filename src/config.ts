@@ -6,7 +6,7 @@ export const config: MathForKids.BasicMathSettings[] = [
 		excercises: 10,
 		firstOperandRangeMin: 1,
 		firstOperandRangeMax: 9,
-		secondOperandRangeMin: 1,
+		secondOperandRangeMin: 2,
 		secondOperandRangeMax: 5,
 		operators: [Operator.PLUS],
 		direction: TypingDirection.RtoL,

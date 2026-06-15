@@ -33,7 +33,7 @@ export const useHash = () => {
 		const result: Element[] = [];
 		let defaultRoute = null;
 		for (const r of routes) {
-			if (hash === r.path) {
+			if (hash.startsWith(r.path)) {
 				pushResult(result, r.element);
 			}
 			if (r.path === 'DEFAULT') {
