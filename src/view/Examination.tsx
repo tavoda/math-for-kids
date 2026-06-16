@@ -82,7 +82,7 @@ export const Examination = () => {
 			{renderRow(maxPlaces, undefined, ex.firstOperand)}
 			{renderRow(maxPlaces, ex.operator, ex.secondOperand)}
 			<hr class='underscore' />
-			<BoxInput value={ex.result} setValue={setResult} excercise={excercise} positions={maxPlaces} direction={selectedConfig.direction} nextExcercise={next} prevExcercise={prev} />
+			<BoxInput value={ex.result} setValue={setResult} excercise={excercise} automaticStepForward={selectedConfig.automaticStepForward} positions={maxPlaces} direction={selectedConfig.direction} nextExcercise={next} prevExcercise={prev} />
 		</div>
 		<div class='footer'>
 			<Button text='< Prev' action={prev} /><Button text='Next >' action={next} />

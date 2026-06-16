@@ -62,5 +62,6 @@ export declare namespace MathForKids {
 		rightResult: number;
 		time: number;
 		correct: boolean | null;
+		order?: number;
 	}
 }

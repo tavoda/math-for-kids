@@ -7,6 +7,7 @@ export const BoxInput = (props: {
 	excercise: number,
 	direction: TypingDirection,
 	positions: number,
+	automaticStepForward: boolean,
 	nextExcercise: () => void,
 	prevExcercise: () => void
 }) => {
@@ -53,7 +54,7 @@ export const BoxInput = (props: {
 				setPosition(p => {
 					numbers.current[p] = n;
 					invokeSet();
-					if (props.direction === TypingDirection.LtoR && p + 1 === numbers.current.length || p === 0) {
+					if (props.automaticStepForward && (props.direction === TypingDirection.LtoR && p + 1 === numbers.current.length || p === 0)) {
 						props.nextExcercise();
 					}
 					return moveCursor(p, props.direction);

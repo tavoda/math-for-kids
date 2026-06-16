@@ -9,6 +9,7 @@ export const Result = () => {
 	let corr = 0;
 	let nocorr = 0;
 	let totalTime = 0;
+	let i = 1;
 	exam.forEach(e => {
 		if (e.result === e.rightResult) {
 			corr++
@@ -16,8 +17,13 @@ export const Result = () => {
 			nocorr++;
 		}
 		totalTime += e.time;
+		e.order = i++;
 	})
 	const sortedExamByTime = exam.toSorted((a, b) => a.time - b.time);
+
+	const goToWelcome = () => {
+		window.location.hash = '#welcome';
+	}
 
 	return <>
 		<h2>Results</h2>
@@ -29,11 +35,19 @@ export const Result = () => {
 		<div>✅️: {corr}</div>
 		<div>❌: {nocorr}</div>
 		<div>Total time: {millisToTimeString(totalTime)}</div>
-		<h2>Statistics</h2>
-		<h4>Slowest</h4>
-		{sortedExamByTime.slice(sortedExamByTime.length - 3).reverse().map(e => <div>{millisToTimeString(e.time)}: {e.firstOperand} {e.operator?.symbol} {e.secondOperand} = {e.result}</div>)}
-		<h4>Fastest</h4>
-		{sortedExamByTime.slice(0, 3).map(e => <div>{millisToTimeString(e.time)}: {e.firstOperand} {e.operator?.symbol} {e.secondOperand} = {e.result}</div>)}
-		<Button text="New examination" action={() => { window.location.hash = '#' }} />
+		<div>Average time: {millisToTimeString(totalTime / exam.length)}</div>
+		<div>&nbsp;</div>
+		<h2>Slowest</h2>
+		<table class='result-table'>
+			<tr><th>Time</th><th>Order</th><th>Exam</th></tr>
+			{sortedExamByTime.slice(sortedExamByTime.length - 3).reverse().map(e => <tr><td>{millisToTimeString(e.time)}</td><td>{e.order}</td><td>{e.firstOperand} {e.operator?.symbol} {e.secondOperand} = {e.result}</td></tr>)}
+		</table>
+		<div>&nbsp;</div>
+		<h2>Fastest</h2>
+		<table class='result-table'>
+			<tr><th>Time</th><th>Order</th><th>Exam</th></tr>
+			{sortedExamByTime.slice(0, 3).map(e => <tr><td>{millisToTimeString(e.time)}</td><td>{e.order}</td><td>{e.firstOperand} {e.operator?.symbol} {e.secondOperand} = {e.result}</td></tr>)}
+		</table>
+		<Button text="New examination" action={goToWelcome} />
 	</>
 }

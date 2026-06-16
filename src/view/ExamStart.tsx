@@ -8,13 +8,19 @@ import { TypingDirection } from "../Types";
 export const ExamStart = () => {
 	const [config] = useConfigStore();
 	const [, setSelectedConfig] = useSelectedConfig();
-	const [, setExamStore] = useExamStore();
+	const [examStore, setExamStore] = useExamStore();
 	const { generateExam } = useUtils();
 
 	const { hash } = useHash();
 	const hashPattern = /#start\/([0-9]+)/g;
 	const match = hashPattern.exec(hash);
 	const selectedConfig = match && match[1] && config[Number(match[1])] || null;
+
+	console.log(examStore)
+	if (examStore !== null && examStore.length > 0) {
+		window.location.hash = '#excercise'
+		return <></>
+	}
 
 
 	useEffect(() => {
@@ -43,7 +49,7 @@ export const ExamStart = () => {
 			<h2>Informations</h2>
 			<div>
 				Test with {selectedConfig.excercises} question is prepared.<br />
-				Type direction is {selectedConfig.direction === TypingDirection.LtoR ? 'Left -> Right' : 'Right -> Left (inverse)'}.<br />
+				Type direction is {selectedConfig.direction === TypingDirection.LtoR ? 'Left -> Right' : 'Right -> Left (inverse, easy for calculation)'}.<br />
 				Prepare, focus and press 'Start' button. Good luck!
 			</div>
 			<div>
