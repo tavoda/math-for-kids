@@ -1,50 +1,45 @@
 import './app.scss';
 import { Examination } from './view/Examination';
-import { useHash } from './component/HashRouter';
+import { useRouter } from './component/ReactRouter';
 import { ExamStart } from './view/ExamStart';
 import { Welcome } from './view/Welcome';
-import { config } from './config';
 import { AllProviders } from './component/StoreUtils';
 import { ExamEnd } from './view/ExamEnd';
 import { Result } from './view/Result';
 
 export function App() {
-	const hash = useHash();
+	const router = useRouter();
 
 	return (
 		<AllProviders>
 			<section id="center">
-				{hash.router([
+				{router.fork([
 					{
 						path: 'DEFAULT',
 						element: <Welcome />
 					},
 					{
 						path: '#start',
-						element: (hash: string) => {
-							console.log('HASH: ' + hash);
-							return <ExamStart/>
+						element: (_: string) => {
+							return <ExamStart />
 						}
 					},
 					{
 						path: '#excercise',
-						element: (hash: string) => {
-							console.log('HASH: ' + hash);
-							return <Examination/>
+						element: (_: string) => {
+							return <Examination />
 						}
 					},
 					{
 						path: '#end',
-						element: (hash: string) => {
-							console.log('HASH: ' + hash);
-							return <ExamEnd/>
+						element: (_: string) => {
+							return <ExamEnd />
 						}
 					},
 					{
 						path: '#result',
-						element: (hash: string) => {
-							console.log('HASH: ' + hash);
-							return <Result/>
+						element: (_: string) => {
+							return <Result />
 						}
 					}
 				])}

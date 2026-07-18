@@ -66,11 +66,12 @@
 	width: 100%;
 }
 
-.result-table>tr {
+.result-table tr {
 	border: 1px solid;
 
 	>th {
 		border-bottom: 3px solid;
+		padding: 0 0.4rem 0 0.4rem;
 	}
 
 	>td {

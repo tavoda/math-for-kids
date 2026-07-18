@@ -8,7 +8,7 @@ export const Welcome = () => {
 
 	useEffect(() => {
 		setExam([]);
-	})
+	}, []);
 
 	const startExcercise = (i: number) => {
 		window.location.hash = `#start/${i}`

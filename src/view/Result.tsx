@@ -28,8 +28,12 @@ export const Result = () => {
 	return <>
 		<h2>Results</h2>
 		<table class='result-table'>
-			<tr><th>Exam</th><th>Result</th><th>Time</th></tr>
-			{exam.map(e => <tr><td>{e.firstOperand} {e.operator?.symbol} {e.secondOperand} = {e.result} </td><td>{e.result === e.rightResult ? '✅️' : '❌ (' + e.rightResult + ')'}</td><td>{millisToTimeString(e.time)}</td></tr>)}
+			<thead>
+				<tr><th>Exam</th><th>Right result</th><th>Your entry</th><th>Result</th><th>Time</th></tr>
+			</thead>
+			<tbody>
+				{exam.map(e => <tr><td>{e.firstOperand} {e.operator?.symbol} {e.secondOperand}</td><td>{e.rightResult}</td><td>{e.result}</td><td>{e.result === e.rightResult ? '✅️' : '❌'}</td><td>{millisToTimeString(e.time)}</td></tr>)}
+			</tbody>
 		</table>
 		{/* { corr + ' - ✅️ :: ' + nocorr + ' - ❌ :: total time - ' + millisToTimeString(totalTime)} */}
 		<div>✅️: {corr}</div>
@@ -39,14 +43,22 @@ export const Result = () => {
 		<div>&nbsp;</div>
 		<h2>Slowest</h2>
 		<table class='result-table'>
-			<tr><th>Time</th><th>Order</th><th>Exam</th></tr>
-			{sortedExamByTime.slice(sortedExamByTime.length - 3).reverse().map(e => <tr><td>{millisToTimeString(e.time)}</td><td>{e.order}</td><td>{e.firstOperand} {e.operator?.symbol} {e.secondOperand} = {e.result}</td></tr>)}
+			<thead>
+				<tr><th>Time</th><th>Order</th><th>Exam</th></tr>
+			</thead>
+			<tbody>
+				{sortedExamByTime.slice(sortedExamByTime.length - 3).reverse().map(e => <tr><td>{millisToTimeString(e.time)}</td><td>{e.order}</td><td>{e.firstOperand} {e.operator?.symbol} {e.secondOperand} = {e.result}</td></tr>)}
+			</tbody>
 		</table>
 		<div>&nbsp;</div>
 		<h2>Fastest</h2>
 		<table class='result-table'>
-			<tr><th>Time</th><th>Order</th><th>Exam</th></tr>
-			{sortedExamByTime.slice(0, 3).map(e => <tr><td>{millisToTimeString(e.time)}</td><td>{e.order}</td><td>{e.firstOperand} {e.operator?.symbol} {e.secondOperand} = {e.result}</td></tr>)}
+			<thead>
+				<tr><th>Time</th><th>Order</th><th>Exam</th></tr>
+			</thead>
+			<tbody>
+				{sortedExamByTime.slice(0, 3).map(e => <tr><td>{millisToTimeString(e.time)}</td><td>{e.order}</td><td>{e.firstOperand} {e.operator?.symbol} {e.secondOperand} = {e.result}</td></tr>)}
+			</tbody>
 		</table>
 		<Button text="New examination" action={goToWelcome} />
 	</>

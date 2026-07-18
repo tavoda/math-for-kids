@@ -1,6 +1,6 @@
 import { useEffect } from "preact/hooks";
 import { Button } from "../component/Button"
-import { useHash } from "../component/HashRouter";
+import { useRouter } from "../component/ReactRouter";
 import { useConfigStore, useExamStore, useSelectedConfig } from "../component/StoreUtils"
 import { useUtils } from "../component/useUtils";
 import { TypingDirection } from "../Types";
@@ -8,20 +8,13 @@ import { TypingDirection } from "../Types";
 export const ExamStart = () => {
 	const [config] = useConfigStore();
 	const [, setSelectedConfig] = useSelectedConfig();
-	const [examStore, setExamStore] = useExamStore();
+	const [, setExamStore] = useExamStore();
 	const { generateExam } = useUtils();
 
-	const { hash } = useHash();
+	const { fork: route } = useRouter();
 	const hashPattern = /#start\/([0-9]+)/g;
-	const match = hashPattern.exec(hash);
+	const match = hashPattern.exec(route);
 	const selectedConfig = match && match[1] && config[Number(match[1])] || null;
-
-	console.log(examStore)
-	if (examStore !== null && examStore.length > 0) {
-		window.location.hash = '#excercise'
-		return <></>
-	}
-
 
 	useEffect(() => {
 		if (selectedConfig) {
@@ -37,14 +30,18 @@ export const ExamStart = () => {
 		: <>
 			<h2>Controls</h2>
 			<table>
-				<tr><th>Shortcut</th><th>Function</th></tr>
-				<tr><td>0-9</td><td>Type number to result</td></tr>
-				<tr><td>Page Up, Arrow Up</td><td>Previous question</td></tr>
-				<tr><td>Page Down, Arrow Down</td><td>Next question</td></tr>
-				<tr><td>Arrow left</td><td>Move cursor left</td></tr>
-				<tr><td>Arrow right</td><td>Move cursor right</td></tr>
-				<tr><td>e</td><td>Erase result and start over</td></tr>
-				<tr><td>Backspace, Del</td><td>Return back one place</td></tr>
+				<thead>
+					<tr><th>Shortcut</th><th>Function</th></tr>
+				</thead>
+				<tbody>
+					<tr><td>0-9</td><td>Type number to result</td></tr>
+					<tr><td>Page Up, Arrow Up</td><td>Previous question</td></tr>
+					<tr><td>Page Down, Arrow Down</td><td>Next question</td></tr>
+					<tr><td>Arrow left</td><td>Move cursor left</td></tr>
+					<tr><td>Arrow right</td><td>Move cursor right</td></tr>
+					<tr><td>e</td><td>Erase result and start over</td></tr>
+					<tr><td>Backspace, Del</td><td>Return back one place</td></tr>
+				</tbody>
 			</table>
 			<h2>Informations</h2>
 			<div>

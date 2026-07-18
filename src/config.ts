@@ -39,5 +39,18 @@ export const config: MathForKids.BasicMathSettings[] = [
 		showTime: true,
 		automaticStepForward: false,
 		immediateEvaluation: false,
+	},
+	{
+		name: 'Q: 10 :: Level: Intermediate :: ADD/SUB ONLY',
+		excercises: 10,
+		firstOperandRangeMin: 11,
+		firstOperandRangeMax: 99,
+		secondOperandRangeMin: 1,
+		secondOperandRangeMax: 99,
+		operators: [Operator.PLUS, Operator.MINUS],
+		direction: TypingDirection.RtoL,
+		showTime: true,
+		automaticStepForward: true,
+		immediateEvaluation: false,
 	}
 ]
