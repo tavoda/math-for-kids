@@ -4,6 +4,7 @@ A lightweight, focused utility application built to create customized math tests
 
 Unlike typical educational apps, this tool strips away gamification and distractions, focusing purely on core mathematics and robust statistical tracking.
 
+[START EXAM](https://tavoda.github.io/math-for-kids/)
 ---
 
 ## 🚀 Features

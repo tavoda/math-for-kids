@@ -11,9 +11,9 @@ export const ExamStart = () => {
 	const [, setExamStore] = useExamStore();
 	const { generateExam } = useUtils();
 
-	const { fork: route } = useRouter();
+	const { path } = useRouter();
 	const hashPattern = /#start\/([0-9]+)/g;
-	const match = hashPattern.exec(route);
+	const match = hashPattern.exec(path);
 	const selectedConfig = match && match[1] && config[Number(match[1])] || null;
 
 	useEffect(() => {

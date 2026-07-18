@@ -1,5 +1,5 @@
-import { defineConfig } from 'vite'
-import preact from '@preact/preset-vite'
+import { defineConfig } from 'vite';
+import preact from '@preact/preset-vite';
 import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
@@ -7,4 +7,5 @@ export default defineConfig({
 		preact(),
 		tailwindcss()
 	],
+	base: "/math-for-kids/",
 })
