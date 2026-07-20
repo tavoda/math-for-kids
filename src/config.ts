@@ -2,7 +2,7 @@ import { Operator, TypingDirection, type MathForKids } from "./Types";
 
 export const config: MathForKids.BasicMathSettings[] = [
 	{
-		name: 'Q: 10 :: Level: Very Basic :: ADD ONLY',
+		name: 'Very basic',
 		excercises: 10,
 		firstOperandRangeMin: 1,
 		firstOperandRangeMax: 9,
@@ -12,10 +12,9 @@ export const config: MathForKids.BasicMathSettings[] = [
 		direction: TypingDirection.RtoL,
 		showTime: false,
 		automaticStepForward: true,
-		immediateEvaluation: false,
 	},
 	{
-		name: 'Q: 10 :: Level: Basic :: ADD ONLY',
+		name: 'Basic',
 		excercises: 10,
 		firstOperandRangeMin: 1,
 		firstOperandRangeMax: 9,
@@ -25,10 +24,9 @@ export const config: MathForKids.BasicMathSettings[] = [
 		direction: TypingDirection.RtoL,
 		showTime: true,
 		automaticStepForward: false,
-		immediateEvaluation: false,
 	},
 	{
-		name: 'Q: 10 :: Level: Intermediate :: ADD ONLY',
+		name: 'Intermediate',
 		excercises: 10,
 		firstOperandRangeMin: 11,
 		firstOperandRangeMax: 99,
@@ -38,10 +36,9 @@ export const config: MathForKids.BasicMathSettings[] = [
 		direction: TypingDirection.RtoL,
 		showTime: true,
 		automaticStepForward: false,
-		immediateEvaluation: false,
 	},
 	{
-		name: 'Q: 10 :: Level: Intermediate :: ADD/SUB ONLY',
+		name: 'Intermediate',
 		excercises: 10,
 		firstOperandRangeMin: 11,
 		firstOperandRangeMax: 99,
@@ -51,6 +48,5 @@ export const config: MathForKids.BasicMathSettings[] = [
 		direction: TypingDirection.RtoL,
 		showTime: true,
 		automaticStepForward: true,
-		immediateEvaluation: false,
 	}
 ]

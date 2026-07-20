@@ -6,6 +6,8 @@ import { Welcome } from './view/Welcome';
 import { AllProviders } from './component/StoreUtils';
 import { ExamEnd } from './view/ExamEnd';
 import { Result } from './view/Result';
+import { ConfigEditor } from './view/ConfigEditor';
+import { ConfigManager } from './view/ConfigManager';
 
 export function App() {
 	const router = useRouter();
@@ -40,6 +42,18 @@ export function App() {
 						path: '#result',
 						element: (_: string) => {
 							return <Result />
+						}
+					},
+					{
+						path: '#config-edit',
+						element: (_: string) => {
+							return <ConfigEditor />
+						}
+					},
+					{
+						path: '#config-manage',
+						element: (_: string) => {
+							return <ConfigManager />
 						}
 					}
 				])}

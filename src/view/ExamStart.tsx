@@ -1,19 +1,21 @@
 import { useEffect } from "preact/hooks";
 import { Button } from "../component/Button"
 import { useRouter } from "../component/ReactRouter";
-import { useConfigStore, useExamStore, useSelectedConfig } from "../component/StoreUtils"
+import { useExamStore, useSelectedConfig } from "../component/StoreUtils"
 import { useUtils } from "../component/useUtils";
 import { TypingDirection } from "../Types";
+import { useConfig } from "../component/ConfigUtils";
 
 export const ExamStart = () => {
-	const [config] = useConfigStore();
 	const [, setSelectedConfig] = useSelectedConfig();
 	const [, setExamStore] = useExamStore();
 	const { generateExam } = useUtils();
+	const {getConfig} = useConfig();
 
 	const { path } = useRouter();
 	const hashPattern = /#start\/([0-9]+)/g;
 	const match = hashPattern.exec(path);
+	const config = getConfig();
 	const selectedConfig = match && match[1] && config[Number(match[1])] || null;
 
 	useEffect(() => {

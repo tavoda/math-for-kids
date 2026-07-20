@@ -72,6 +72,15 @@ export const Examination = () => {
 		setExcercise(e => { exam[e].result = newValue; return e })
 	}
 
+	// Programmatically show/hide the keyboard when needed
+	const showKeyboard = () => {
+		if ('virtualKeyboard' in navigator) {
+			// @ts-ignore
+			navigator.virtualKeyboard.show();
+		}
+	};
+	showKeyboard();
+
 	return exam && <>
 		<div class='header' style={{ flexDirection: 'column' }}>
 			{/* <Button text='< Prev' action={prev}/><Button text='Next >' action={next}/> */}

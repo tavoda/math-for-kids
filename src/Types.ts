@@ -50,7 +50,6 @@ export declare namespace MathForKids {
 		operators:  Array<Operator>;
 		direction: TypingDirection;
 		showTime: boolean;
-		immediateEvaluation: boolean;
 		automaticStepForward: boolean;
 	}
 
