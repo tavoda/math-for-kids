@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
-import { Operator, TypingDirection } from '../Types';
+import { Operator, OperatorDef, TypingDirection } from '../Types';
 import { useRouter } from '../component/ReactRouter';
 import { useConfig } from '../component/ConfigUtils';
 import { Button } from '../component/Button';
+import { useTranslation } from 'react-i18next';
 import type { MathForKids } from "../Types";
 
 const DEFAULT_VALUES: MathForKids.BasicMathSettings = {
@@ -20,6 +21,7 @@ const DEFAULT_VALUES: MathForKids.BasicMathSettings = {
 }
 
 export const ConfigEditor = () => {
+	const { t } = useTranslation()
 	const { getConfig, setConfig } = useConfig();
 	const { path } = useRouter();
 	const [item, setItem] = useState(-1);
@@ -108,20 +110,20 @@ export const ConfigEditor = () => {
 	}
 
 	const clazz = {
-		label: "block text-left text-sm font-medium text-gray-700",
-		group_label: "block text-left text-sm font-medium text-gray-700 mt-3 mb-1",
-		input: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border"
+		label: 'block text-left text-sm font-medium text-gray-700',
+		group_label: 'block text-left text-sm font-medium text-gray-700 mt-3 mb-1',
+		input: 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border',
 	}
 
 	return (
 		<div className="max-w-4xl mx-auto p-6 bg-gray-50 min-h-screen grid grid-cols-1 gap-6">
 			{/* FORMULÁR */}
 			<form className="bg-white p-6 rounded-xl shadow-md space-y-4">
-				<h2 className="text-xl font-bold text-gray-800 pb-2">Configuration editor</h2>
+				<h2 className="text-xl font-bold text-gray-800 pb-2">{t('configEditor', 'Configuration editor')}</h2>
 
 				{/* Name */}
 				<div>
-					<label className={clazz.label}>Name</label>
+					<label className={clazz.label}>{t('name', 'Name')}</label>
 					<input
 						type="text"
 						name="name"
@@ -133,7 +135,7 @@ export const ConfigEditor = () => {
 
 				{/* Excercises */}
 				<div>
-					<label className={clazz.label}>Number of exercises</label>
+					<label className={clazz.label}>{t('numberOfExercises', 'Number of exercises')}</label>
 					<input
 						type="number"
 						name="excercises"
@@ -143,7 +145,7 @@ export const ConfigEditor = () => {
 					/>
 				</div>
 
-				<span className={clazz.group_label}>First operand</span>
+				<span className={clazz.group_label}>{t('firstOperand', 'First operand')}</span>
 				<div className="grid grid-cols-2 gap-4">
 					<div>
 						<label className={clazz.label}>MIN</label>
@@ -167,7 +169,7 @@ export const ConfigEditor = () => {
 					</div>
 				</div>
 
-				<span className={clazz.group_label}>Second operand</span>
+				<span className={clazz.group_label}>{t('secondOperand', 'Second operand')}</span>
 				<div className="grid grid-cols-2 gap-4">
 					<div>
 						<label className={clazz.label}>MIN</label>
@@ -193,11 +195,11 @@ export const ConfigEditor = () => {
 
 				{/* Operators */}
 				<div>
-					<label className={clazz.label}>Operator</label>
+					<label className={clazz.label}>{t('operator', 'Operator')}</label>
 					<div className="flex gap-4">
 						{Object.keys(Operator).map((key) => {
 							const oper = Operator[key as keyof typeof Operator];
-							// const operSpec = OperatorDef.get(oper);
+							const operDef = OperatorDef.get(oper);
 							return (<label className="flex items-center space-x-2">
 								<input
 									type="checkbox"
@@ -205,14 +207,14 @@ export const ConfigEditor = () => {
 									onChange={() => handleOperatorChange(key)}
 									className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
 								/>
-								<span>{oper}</span>
+								<span>{operDef ? t(operDef.opName.toLocaleLowerCase()) : 'UNKNOWN'}</span>
 							</label>)
 						})}
 					</div>
 				</div>
 
 				<div>
-					<label className={clazz.label}>Total time</label>
+					<label className={clazz.label}>{t('totalTime', 'Total time')}</label>
 					<input
 						type="text"
 						name="limitTotalTime"
@@ -223,15 +225,15 @@ export const ConfigEditor = () => {
 				</div>
 
 				<div>
-					<label className={clazz.label}>Typing direction</label>
+					<label className={clazz.label}>{t('typingDirection', 'Typing direction')}</label>
 					<select
 						name="direction"
 						value={formData.direction}
 						onChange={handleChange}
 						className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border bg-white"
 					>
-						<option value={TypingDirection.LtoR}>Zľava doprava (LtoR)</option>
-						<option value={TypingDirection.RtoL}>Sprava doľava (RtoL)</option>
+						<option value={TypingDirection.LtoR}>{t('leftToRight', 'Left to right (LtoR)')}</option>
+						<option value={TypingDirection.RtoL}>{t('rightToLeft', 'Right to left (RtoL)')}</option>
 					</select>
 				</div>
 
@@ -244,7 +246,7 @@ export const ConfigEditor = () => {
 							onChange={handleChange}
 							className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
 						/>
-						<span className="text-left text-sm text-gray-700">Show time</span>
+						<span className="text-left text-sm text-gray-700">{t('showTime', 'Show time')}</span>
 					</label>
 
 					<label className="flex items-center space-x-2">
@@ -255,13 +257,13 @@ export const ConfigEditor = () => {
 							onChange={handleChange}
 							className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
 						/>
-						<span className="text-left text-sm text-gray-700">Automatic forward</span>
+						<span className="text-left text-sm text-gray-700">{t('automaticForward', 'Automatic forward')}</span>
 					</label>
 				</div>
 
 				<div className="flex gap-4 justify-center">
-					<Button text="Cancel" action={backToManager} />
-					<Button type="blue" text="Save configuration" action={saveConfig} />
+					<Button text={t('cancel', 'Cancel')} action={backToManager} />
+					<Button type="blue" text={t('saveConfig', 'Save configuration')} action={saveConfig} />
 				</div>
 			</form>
 		</div>

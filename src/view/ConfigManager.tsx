@@ -3,8 +3,10 @@ import { Button } from "../component/Button"
 import { useExamStore } from "../component/StoreUtils"
 import { useConfig } from "../component/ConfigUtils";
 import { IconBack, IconPencil, IconPlus, IconReload, IconTrash } from "../component/Icon";
+import { useTranslation } from 'react-i18next';
 
 export const ConfigManager = () => {
+	const { t } = useTranslation()
 	const [, setExam] = useExamStore();
 	const [, setRedraw] = useState(1);
 	const { getConfig, setConfig, resetConfig } = useConfig();
@@ -44,11 +46,11 @@ export const ConfigManager = () => {
 	}
 
 	return <>
-		<h1>Configuration manager</h1>
+		<h1>{t('configManager', 'Configuration manager')}</h1>
 		<div class='flex flex-col gap-4'>
 			{getConfig().map((c, i) => {
 				return <div class='flex gap-4'>
-					<Button classPostfix="grow" text={`${c.name} (${c.excercises}: ${c.firstOperandRangeMin}..${c.firstOperandRangeMax} ${c.operators} ${c.secondOperandRangeMin}..${c.secondOperandRangeMax})`} action={() => editExam(i)} />
+					<Button classPostfix="grow" text={`${c.name} (${c.excercises}: ${c.firstOperandRangeMin}..${c.firstOperandRangeMax} ${c.operators} ${c.secondOperandRangeMin}..${c.secondOperandRangeMax}${(c.limitTotalTime || '00:00') !== '00:00' ? ' - ' + c.limitTotalTime : ''})`} action={() => editExam(i)} />
 					<Button type='teal' classPostfix="shrink" action={() => editExam(i)} >
 						<IconPencil />
 					</Button>
@@ -59,13 +61,13 @@ export const ConfigManager = () => {
 			})}
 		</div>
 		<div class='flex gap-4'>
-			<Button type='blue' text='Add new configuration' action={() => addExam()}>
+			<Button type='blue' text={t('addNewConfiguration', 'Add new configuration')} action={() => addExam()}>
 				<IconPlus />
 			</Button>
-			<Button type='blue' text='Reset to default' action={reset}>
+			<Button type='blue' text={t('resetToDefault', 'Reset to default')} action={reset}>
 				<IconReload />
 			</Button>
-			<Button type='blue' text='Back to main' action={back}>
+			<Button type='blue' text={t('backToMain', 'Back to main')} action={back}>
 				<IconBack />
 			</Button>
 		</div>

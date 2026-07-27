@@ -1,5 +1,6 @@
 export type OperatorSpec = {
 	name: string,
+	opName: string,
 	symbol: string,
 	calc: (f: number, s: number) => number,
 }
@@ -13,22 +14,26 @@ export enum Operator {
 
 export const OperatorDef = new Map<Operator, OperatorSpec>([
 	[Operator.PLUS, {
-		name: 'PLUS',
+		name: 'Plus',
+		opName: 'Addition',
 		symbol: '+',
 		calc:  (f:number, s:number) => f + s,
 	}],
 	[Operator.MINUS, {
-		name: 'MINUS',
+		name: 'Minus',
+		opName: 'Substraction',
 		symbol: '-',
 		calc:  (f, s) => f - s,
 	}],
 	[Operator.MULTIPLY, {
-		name: 'MULTIPLY',
+		name: 'Multiply',
+		opName: 'Multiplication',
 		symbol: '*',
 		calc:  (f, s) => f * s,
 	}],
 	[Operator.DIVIDE, {
-		name: 'DIVIDE',
+		name: 'Divide',
+		opName: 'Division',
 		symbol: '/',
 		calc:  (f, s) => f / s,
 	}]

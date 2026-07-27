@@ -1,5 +1,6 @@
 import { Operator, TypingDirection, type MathForKids } from "./Types";
 
+
 export const config: MathForKids.BasicMathSettings[] = [
 	{
 		name: 'Very basic',
@@ -11,6 +12,7 @@ export const config: MathForKids.BasicMathSettings[] = [
 		operators: [Operator.PLUS],
 		direction: TypingDirection.RtoL,
 		showTime: false,
+		limitTotalTime: '00:00',
 		automaticStepForward: true,
 	},
 	{
@@ -23,6 +25,7 @@ export const config: MathForKids.BasicMathSettings[] = [
 		operators: [Operator.PLUS],
 		direction: TypingDirection.RtoL,
 		showTime: true,
+		limitTotalTime: '00:00',
 		automaticStepForward: false,
 	},
 	{
@@ -35,6 +38,7 @@ export const config: MathForKids.BasicMathSettings[] = [
 		operators: [Operator.PLUS],
 		direction: TypingDirection.RtoL,
 		showTime: true,
+		limitTotalTime: '10:00',
 		automaticStepForward: false,
 	},
 	{
@@ -47,6 +51,7 @@ export const config: MathForKids.BasicMathSettings[] = [
 		operators: [Operator.PLUS, Operator.MINUS],
 		direction: TypingDirection.RtoL,
 		showTime: true,
+		limitTotalTime: '10:00',
 		automaticStepForward: true,
 	}
 ]

@@ -5,12 +5,14 @@ import { type OperatorSpec } from '../Types';
 import { useUtils } from '../component/useUtils';
 import { useExamStore, useSelectedConfig } from '../component/StoreUtils';
 import { ConfigEditor } from './ConfigEditor';
+import { useTranslation } from 'react-i18next';
 
 export const Examination = () => {
 	const { millisToTimeString, timeStringToMillis } = useUtils();
 	const [exam] = useExamStore();
 	const [selectedConfig] = useSelectedConfig();
 	const [excercise, setExcercise] = useState(0);
+	const { t } = useTranslation()
 
 	// One excercise time calculation
 	const [, setExcerciseStart] = useState(Date.now());
@@ -114,7 +116,7 @@ export const Examination = () => {
 			<BoxInput value={ex.result} setValue={setResult} excercise={excercise} automaticStepForward={selectedConfig.automaticStepForward} positions={maxPlaces} direction={selectedConfig.direction} nextExcercise={next} prevExcercise={prev} />
 		</div>
 		<div class='footer'>
-			<Button text='< Prev' action={prev} /><Button text='Next >' action={next} />
+			<Button text={"◀️ " + t('prev', 'Prev')} action={prev} /><Button text={t('next', 'Next') + ' ▶️'} action={next} />
 		</div>
 	</>
 }

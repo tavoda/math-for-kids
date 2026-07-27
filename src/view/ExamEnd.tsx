@@ -2,8 +2,11 @@ import { Button } from "../component/Button"
 import type { MathForKids } from "../Types";
 import { useExamStore, useSelectedConfig } from "../component/StoreUtils";
 import { useUtils } from "../component/useUtils";
+import { useTranslation } from 'react-i18next';
+
 
 export const ExamEnd = () => {
+	const { t } = useTranslation()
 	const [exam] = useExamStore();
 	const [selectedConfig, setSelectedConfig] = useSelectedConfig();
 	const { millisToTimeString } = useUtils();
@@ -19,16 +22,16 @@ export const ExamEnd = () => {
 	}
 
 	return <>
-		<h2>Results</h2>
+		<h2>{t('results', 'Results')}</h2>
 		<table class='result-table'>
 			<thead>
-				<tr><th>Exam</th><th>Time</th></tr>
+				<tr><th>{t('exam', 'Exam')}</th><th>{t('time', 'Time')}</th></tr>
 			</thead>
 			<tbody>
 				{exam.map(e => <tr><td>{e.firstOperand} {e.operator?.symbol} {e.secondOperand} = {e.result} </td><td>{millisToTimeString(e.time)}</td></tr>)}
 			</tbody>
 		</table>
-		<Button text="◀️ Back to exam" action={() => { window.location.hash = '#excercise' }} />
-		<Button text="End examination ▶️" action={goToResult} />
+		<Button text={'◀️ ' + t('backToExam', 'Back to exam')} action={() => { window.location.hash = '#excercise' }} />
+		<Button text={t('endExam', 'End examination') + ' ▶️'} action={goToResult} />
 	</>
 }

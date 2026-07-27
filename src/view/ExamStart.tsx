@@ -5,8 +5,10 @@ import { useExamStore, useSelectedConfig } from "../component/StoreUtils"
 import { useUtils } from "../component/useUtils";
 import { TypingDirection } from "../Types";
 import { useConfig } from "../component/ConfigUtils";
+import { useTranslation, Trans } from 'react-i18next';
 
 export const ExamStart = () => {
+	const { t } = useTranslation()
 	const [, setSelectedConfig] = useSelectedConfig();
 	const [, setExamStore] = useExamStore();
 	const { generateExam } = useUtils();
@@ -28,32 +30,36 @@ export const ExamStart = () => {
 	}, []);
 
 	return !selectedConfig
-		? <div>No configuration provided</div>
+		? <div>{t('noConfigurationProvided', 'No configuration provided')}</div>
 		: <>
-			<h2>Controls</h2>
+			<h2>{t('controls', 'Controls')}</h2>
 			<table>
 				<thead>
-					<tr><th>Shortcut</th><th>Function</th></tr>
+					<tr><th>{t('shortcut', 'Shortcut')}</th><th>{t('function', 'Function')}</th></tr>
 				</thead>
 				<tbody>
-					<tr><td>0-9</td><td>Type number to result</td></tr>
-					<tr><td>Page Up, Arrow Up</td><td>Previous question</td></tr>
-					<tr><td>Page Down, Arrow Down</td><td>Next question</td></tr>
-					<tr><td>Arrow left</td><td>Move cursor left</td></tr>
-					<tr><td>Arrow right</td><td>Move cursor right</td></tr>
-					<tr><td>e</td><td>Erase result and start over</td></tr>
-					<tr><td>Backspace, Del</td><td>Return back one place</td></tr>
+					<tr><td>0-9</td><td>{t('typeNumberToResult', 'Type number to result')}</td></tr>
+					<tr><td>{t('pageUpArrowUp', 'Page Up, Arrow Up')}</td><td>{t('previousQuestion', 'Previous question')}</td></tr>
+					<tr><td>{t('pageDownArrowDown', 'Page Down, Arrow Down')}</td><td>{t('nextQuestion', 'Next question')}</td></tr>
+					<tr><td>{t('arrowLeft', 'Arrow left')}</td><td>{t('moveCursorLeft', 'Move cursor left')}</td></tr>
+					<tr><td>{t('arrowRight', 'Arrow right')}</td><td>{t('moveCursorRight', 'Move cursor right')}</td></tr>
+					<tr><td>e</td><td>{t('eraseResult', 'Erase result and start over')}</td></tr>
+					<tr><td>{t('backspaceDel', 'Backspace, Del')}</td><td>{t('returnBackOnePlace', 'Return back one place')}</td></tr>
 				</tbody>
 			</table>
-			<h2>Informations</h2>
+			<h2>{t('informations', 'Informations')}</h2>
 			<div>
-				Test with {selectedConfig.excercises} question is prepared.<br />
-				Type direction is {selectedConfig.direction === TypingDirection.LtoR ? 'Left -> Right' : 'Right -> Left (inverse, easy for calculation)'}.<br />
-				{selectedConfig.limitTotalTime && selectedConfig.limitTotalTime !== '00:00' ? <span>You have time limit {selectedConfig.limitTotalTime} for solving all questions.<br/></span> : <></>}
-				Prepare, focus and press 'Start' button. Good luck!
+				<Trans i18nKey="excerciseConfig">Test with {{ excercises: selectedConfig.excercises }} question is prepared.<br />Type direction is</Trans>&nbsp;
+				{selectedConfig.direction === TypingDirection.LtoR ? t('leftRight', 'Left -> Right') : t('rightLeft', 'Right -> Left (inverse, easy for calculation)')}.<br />
+				{selectedConfig.limitTotalTime && selectedConfig.limitTotalTime !== '00:00'
+					? <span>
+						<Trans i18nKey="timeLimit">You have time limit {{ limitTotalTime: selectedConfig.limitTotalTime }} for solving all questions.</Trans><br/>
+					</span>
+					: <></>}
+				{t('pressStart', 'Prepare, focus and press \'Start\' button. Good luck!')}
 			</div>
 			<div>
-				<Button text="Start" action={() => { window.location.hash = '#excercise' }} />
+				<Button text={t('start', 'Start')} action={() => { window.location.hash = '#excercise' }} />
 			</div>
 		</>
 }

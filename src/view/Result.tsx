@@ -1,8 +1,10 @@
 import { Button } from "../component/Button"
 import { useExamStore } from "../component/StoreUtils"
 import { useUtils } from "../component/useUtils";
+import { useTranslation } from 'react-i18next';
 
 export const Result = () => {
+	const { t } = useTranslation()
 	const [exam] = useExamStore();
 	const { millisToTimeString } = useUtils();
 
@@ -26,10 +28,10 @@ export const Result = () => {
 	}
 
 	return <>
-		<h2>Results</h2>
+		<h2>{t('results', 'Results')}</h2>
 		<table class='result-table'>
 			<thead>
-				<tr><th>Exam</th><th>Right result</th><th>Your entry</th><th>Result</th><th>Time</th></tr>
+				<tr><th>{t('exam', 'Exam')}</th><th>{t('rightResult', 'Right result')}</th><th>{t('yourEntry', 'Your entry')}</th><th>{t('result', 'Result')}</th><th>{t('time', 'Time')}</th></tr>
 			</thead>
 			<tbody>
 				{exam.map(e => <tr><td>{e.firstOperand} {e.operator?.symbol} {e.secondOperand}</td><td>{e.rightResult}</td><td>{e.result}</td><td>{e.result === e.rightResult ? '✅️' : '❌'}</td><td>{millisToTimeString(e.time)}</td></tr>)}
@@ -38,28 +40,28 @@ export const Result = () => {
 		{/* { corr + ' - ✅️ :: ' + nocorr + ' - ❌ :: total time - ' + millisToTimeString(totalTime)} */}
 		<div>✅️: {corr}</div>
 		<div>❌: {nocorr}</div>
-		<div>Total time: {millisToTimeString(totalTime)}</div>
-		<div>Average time: {millisToTimeString(totalTime / exam.length)}</div>
+		<div>{t('totalTime', 'Total time')}: {millisToTimeString(totalTime)}</div>
+		<div>{t('averageTime', 'Average time')}: {millisToTimeString(totalTime / exam.length)}</div>
 		<div>&nbsp;</div>
-		<h2>Slowest</h2>
+		<h2>{t('slowest', 'Slowest')}</h2>
 		<table class='result-table'>
 			<thead>
-				<tr><th>Time</th><th>Order</th><th>Exam</th></tr>
+				<tr><th>{t('time', 'Time')}</th><th>{t('order', 'Order')}</th><th>{t('exam', 'Exam')}</th></tr>
 			</thead>
 			<tbody>
 				{sortedExamByTime.slice(sortedExamByTime.length - 3).reverse().map(e => <tr><td>{millisToTimeString(e.time)}</td><td>{e.order}</td><td>{e.firstOperand} {e.operator?.symbol} {e.secondOperand} = {e.result}</td></tr>)}
 			</tbody>
 		</table>
 		<div>&nbsp;</div>
-		<h2>Fastest</h2>
+		<h2>{t('fastest', 'Fastest')}</h2>
 		<table class='result-table'>
 			<thead>
-				<tr><th>Time</th><th>Order</th><th>Exam</th></tr>
+				<tr><th>{t('time', 'Time')}</th><th>{t('order', 'Order')}</th><th>{t('exam', 'Exam')}</th></tr>
 			</thead>
 			<tbody>
 				{sortedExamByTime.slice(0, 3).map(e => <tr><td>{millisToTimeString(e.time)}</td><td>{e.order}</td><td>{e.firstOperand} {e.operator?.symbol} {e.secondOperand} = {e.result}</td></tr>)}
 			</tbody>
 		</table>
-		<Button text="New examination" action={goToWelcome} />
+		<Button text={t('newExamination', 'New examination')} action={goToWelcome} />
 	</>
 }
