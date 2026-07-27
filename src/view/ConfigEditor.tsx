@@ -3,6 +3,21 @@ import { Operator, TypingDirection } from '../Types';
 import { useRouter } from '../component/ReactRouter';
 import { useConfig } from '../component/ConfigUtils';
 import { Button } from '../component/Button';
+import type { MathForKids } from "../Types";
+
+const DEFAULT_VALUES: MathForKids.BasicMathSettings = {
+	name: 'NEW',
+	excercises: 10,
+	firstOperandRangeMin: 1,
+	firstOperandRangeMax: 99,
+	secondOperandRangeMin: 1,
+	secondOperandRangeMax: 99,
+	operators: [Operator.PLUS],
+	direction: TypingDirection.RtoL,
+	showTime: true,
+	limitTotalTime: '00:00',
+	automaticStepForward: true,
+}
 
 export const ConfigEditor = () => {
 	const { getConfig, setConfig } = useConfig();
@@ -10,18 +25,7 @@ export const ConfigEditor = () => {
 	const [item, setItem] = useState(-1);
 
 	// Default form values
-	const [formData, setFormData] = useState({
-		name: 'NEW',
-		excercises: 10,
-		firstOperandRangeMin: 1,
-		firstOperandRangeMax: 99,
-		secondOperandRangeMin: 1,
-		secondOperandRangeMax: 99,
-		operators: [Operator.PLUS],
-		direction: TypingDirection.RtoL,
-		showTime: true,
-		automaticStepForward: true,
-	});
+	const [formData, setFormData] = useState(DEFAULT_VALUES);
 
 	useEffect(() => {
 		const hashPattern = /#config-edit\/([0-9]+)/g;
@@ -35,7 +39,6 @@ export const ConfigEditor = () => {
 		}
 	}, []);
 
-	// Spracovanie zmien pre text, čísla a selecty
 	const handleChange = (e: any) => {
 		const { name, value, type, checked } = e.target;
 
@@ -49,7 +52,33 @@ export const ConfigEditor = () => {
 		}));
 	};
 
-	// Spracovanie zmien pre pole operátorov (checkboxy)
+	const handleTimeChange = (e: any) => {
+		const { name, value } = e.target;
+
+		let finalValue = '00:00';
+		const split: string[] = value.split(':');
+		if (split.length === 1) {
+			const numVal = Number(split[0]);
+			const seconds = 0;
+			const minutes = numVal;
+			finalValue = formatTimeVal(minutes) + ':' + formatTimeVal(seconds);
+		} else if (split.length === 2) {
+			const minutes = Number(split[0]);
+			const seconds = Number(split[1]);
+			finalValue = formatTimeVal(minutes) + ':' + formatTimeVal(seconds);
+		}
+
+		setFormData((prev) => ({
+			...prev,
+			[name]: finalValue,
+		}));
+	};
+
+	const formatTimeVal = (timeVal: number): string => {
+		const cutValue = Math.floor(timeVal % 60);
+		return (cutValue < 0 || isNaN(cutValue)) ? '00' : cutValue < 10 ? '0' + cutValue : '' + cutValue;
+	}
+
 	const handleOperatorChange = (operatorValue: any) => {
 		setFormData((prev) => {
 			const currentOperators = prev.operators;
@@ -78,41 +107,46 @@ export const ConfigEditor = () => {
 		window.location.hash = `#config-manage`
 	}
 
-	return (
-		<div className="max-w-4xl mx-auto p-6 bg-gray-50 min-h-screen grid grid-cols-1 gap-6 font-sans">
+	const clazz = {
+		label: "block text-left text-sm font-medium text-gray-700",
+		group_label: "block text-left text-sm font-medium text-gray-700 mt-3 mb-1",
+		input: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border"
+	}
 
+	return (
+		<div className="max-w-4xl mx-auto p-6 bg-gray-50 min-h-screen grid grid-cols-1 gap-6">
 			{/* FORMULÁR */}
 			<form className="bg-white p-6 rounded-xl shadow-md space-y-4">
-				<h2 className="text-xl font-bold text-gray-800 border-b pb-2">Editor konfigurácie</h2>
+				<h2 className="text-xl font-bold text-gray-800 pb-2">Configuration editor</h2>
 
 				{/* Name */}
 				<div>
-					<label className="block text-sm font-medium text-gray-700">Názov</label>
+					<label className={clazz.label}>Name</label>
 					<input
 						type="text"
 						name="name"
 						value={formData.name}
 						onChange={handleChange}
-						className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border"
+						className={clazz.input}
 					/>
 				</div>
 
 				{/* Excercises */}
 				<div>
-					<label className="block text-sm font-medium text-gray-700">Počet cvičení</label>
+					<label className={clazz.label}>Number of exercises</label>
 					<input
 						type="number"
 						name="excercises"
 						value={formData.excercises}
 						onChange={handleChange}
-						className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border"
+						className={clazz.input}
 					/>
 				</div>
 
-				<span className="block text-sm span-2 font-medium text-gray-700">Prvý operand</span>
+				<span className={clazz.group_label}>First operand</span>
 				<div className="grid grid-cols-2 gap-4">
 					<div>
-						<label className="block text-sm font-medium text-gray-700">MIN</label>
+						<label className={clazz.label}>MIN</label>
 						<input
 							type="number"
 							name="firstOperandRangeMin"
@@ -122,7 +156,7 @@ export const ConfigEditor = () => {
 						/>
 					</div>
 					<div>
-						<label className="block text-sm font-medium text-gray-700">MAX</label>
+						<label className={clazz.label}>MAX</label>
 						<input
 							type="number"
 							name="firstOperandRangeMax"
@@ -133,10 +167,10 @@ export const ConfigEditor = () => {
 					</div>
 				</div>
 
-				<span className="block text-sm font-medium text-gray-700">Druhý operand</span>
+				<span className={clazz.group_label}>Second operand</span>
 				<div className="grid grid-cols-2 gap-4">
 					<div>
-						<label className="block text-sm font-medium text-gray-700">MIN</label>
+						<label className={clazz.label}>MIN</label>
 						<input
 							type="number"
 							name="secondOperandRangeMin"
@@ -146,7 +180,7 @@ export const ConfigEditor = () => {
 						/>
 					</div>
 					<div>
-						<label className="block text-sm font-medium text-gray-700">MAX</label>
+						<label className={clazz.label}>MAX</label>
 						<input
 							type="number"
 							name="secondOperandRangeMax"
@@ -159,7 +193,7 @@ export const ConfigEditor = () => {
 
 				{/* Operators */}
 				<div>
-					<label className="block text-sm font-medium text-gray-700 mb-1">Operátory</label>
+					<label className={clazz.label}>Operator</label>
 					<div className="flex gap-4">
 						{Object.keys(Operator).map((key) => {
 							const oper = Operator[key as keyof typeof Operator];
@@ -177,9 +211,19 @@ export const ConfigEditor = () => {
 					</div>
 				</div>
 
-				{/* Direction */}
 				<div>
-					<label className="block text-sm font-medium text-gray-700">Smer písania (Direction)</label>
+					<label className={clazz.label}>Total time</label>
+					<input
+						type="text"
+						name="limitTotalTime"
+						value={formData.limitTotalTime}
+						onBlur={handleTimeChange}
+						className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border"
+					/>
+				</div>
+
+				<div>
+					<label className={clazz.label}>Typing direction</label>
 					<select
 						name="direction"
 						value={formData.direction}
@@ -191,7 +235,6 @@ export const ConfigEditor = () => {
 					</select>
 				</div>
 
-				{/* Booleans Toggle */}
 				<div className="flex flex-col gap-2 pt-2">
 					<label className="flex items-center space-x-2">
 						<input
@@ -201,7 +244,7 @@ export const ConfigEditor = () => {
 							onChange={handleChange}
 							className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
 						/>
-						<span className="text-sm text-gray-700">Zobraziť čas (showTime)</span>
+						<span className="text-left text-sm text-gray-700">Show time</span>
 					</label>
 
 					<label className="flex items-center space-x-2">
@@ -212,7 +255,7 @@ export const ConfigEditor = () => {
 							onChange={handleChange}
 							className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
 						/>
-						<span className="text-sm text-gray-700">Automatický posun vpred</span>
+						<span className="text-left text-sm text-gray-700">Automatic forward</span>
 					</label>
 				</div>
 

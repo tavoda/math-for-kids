@@ -1,31 +1,50 @@
-import { useEffect, useState } from 'preact/hooks';
+import { useEffect, useRef, useState } from 'preact/hooks';
 import { BoxInput } from '../component/BoxInput';
 import { Button } from '../component/Button';
 import { type OperatorSpec } from '../Types';
 import { useUtils } from '../component/useUtils';
 import { useExamStore, useSelectedConfig } from '../component/StoreUtils';
+import { ConfigEditor } from './ConfigEditor';
 
 export const Examination = () => {
+	const { millisToTimeString, timeStringToMillis } = useUtils();
 	const [exam] = useExamStore();
 	const [selectedConfig] = useSelectedConfig();
 	const [excercise, setExcercise] = useState(0);
-	const [, setStart] = useState(Date.now());
-	const { millisToTimeString } = useUtils();
+
+	// One excercise time calculation
+	const [, setExcerciseStart] = useState(Date.now());
 	const [time, setTime] = useState('00:00');
+
+	// Total time calculation
+	const totalStart = useRef(Date.now());
+	const totalLimit = useRef(timeStringToMillis(selectedConfig.limitTotalTime || '00:00'));
+	const [totalTime, setTotalTime] = useState(selectedConfig.limitTotalTime || '00:00');
+
 	const maxPlaces = (selectedConfig.firstOperandRangeMax + selectedConfig.secondOperandRangeMax).toString().length;
+	console.log('NAME:', ConfigEditor.name);
 
 	useEffect(() => {
 		const interval = setInterval(() => {
 			setExcercise(ex => {
 				const e = exam[ex];
-				setStart(s => {
-					e.time = Date.now() - s;
+				setExcerciseStart(s => {
+					const now = Date.now();
+					e.time = now - s;
 					const newTime = millisToTimeString(e.time);
 					setTime(c => c !== newTime ? newTime : c);
+					if (totalTime !== '00:00') {
+						const totalTimeMillis = totalLimit.current - now + totalStart.current;
+						if (totalTimeMillis < 0) {
+							window.location.hash = '#result'
+						} else {
+							setTotalTime(millisToTimeString(totalTimeMillis));
+						}
+					}
 					return s;
 				})
 				return ex;
-			})
+			});
 		}, 200)
 
 		return () => clearInterval(interval);
@@ -34,7 +53,7 @@ export const Examination = () => {
 	useEffect(() => {
 		if (exam.length > 0) {
 			const newStart = Date.now() - exam[excercise].time;
-			setStart(newStart);
+			setExcerciseStart(newStart);
 		}
 	}, [exam, excercise]);
 
@@ -86,6 +105,7 @@ export const Examination = () => {
 			{/* <Button text='< Prev' action={prev}/><Button text='Next >' action={next}/> */}
 			<div>{excercise + 1} / {selectedConfig.excercises}</div>
 			{selectedConfig.showTime && <div>{time}</div>}
+			{totalLimit.current !== 0 && <div>{totalTime}</div>}
 		</div>
 		<div class='formula'>
 			{renderRow(maxPlaces, undefined, ex.firstOperand)}

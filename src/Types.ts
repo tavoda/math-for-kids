@@ -51,6 +51,7 @@ export declare namespace MathForKids {
 		direction: TypingDirection;
 		showTime: boolean;
 		automaticStepForward: boolean;
+		limitTotalTime: string;
 	}
 
 	export type Excercise = {

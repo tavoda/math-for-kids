@@ -49,6 +49,7 @@ export const ExamStart = () => {
 			<div>
 				Test with {selectedConfig.excercises} question is prepared.<br />
 				Type direction is {selectedConfig.direction === TypingDirection.LtoR ? 'Left -> Right' : 'Right -> Left (inverse, easy for calculation)'}.<br />
+				{selectedConfig.limitTotalTime && selectedConfig.limitTotalTime !== '00:00' ? <span>You have time limit {selectedConfig.limitTotalTime} for solving all questions.<br/></span> : <></>}
 				Prepare, focus and press 'Start' button. Good luck!
 			</div>
 			<div>

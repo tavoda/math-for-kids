@@ -51,5 +51,14 @@ export const useUtils = () => {
 		return ((minutes < 10) ? "0" + minutes : minutes) + ":" + ((seconds < 10) ? "0" + seconds : seconds);
 	}
 
-	return {millisToTimeString, generateExam};
+	const timeStringToMillis = (time: string): number => {
+		const timeParts: string[] = time.split(':');
+		let millis: number = 0;
+		for (let i = 0; i < timeParts.length; i++) {
+			millis += Number(timeParts[i]) * 1000 * Math.pow(60, timeParts.length - i - 1);
+		}
+		return millis;
+	}
+
+	return {millisToTimeString, timeStringToMillis, generateExam};
 }
