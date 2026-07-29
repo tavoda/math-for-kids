@@ -27,6 +27,11 @@ export const Result = () => {
 		window.location.hash = '#welcome';
 	}
 
+	if (exam == null || exam.length === 0) {
+		goToWelcome();
+		return;
+	}
+
 	return <>
 		<h2>{t('results', 'Results')}</h2>
 		<table class='result-table'>

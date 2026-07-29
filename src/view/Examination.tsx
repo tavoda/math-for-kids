@@ -3,35 +3,46 @@ import { BoxInput } from '../component/BoxInput';
 import { Button } from '../component/Button';
 import { type OperatorSpec } from '../Types';
 import { useUtils } from '../component/useUtils';
-import { useExamStore, useSelectedConfig } from '../component/StoreUtils';
-import { ConfigEditor } from './ConfigEditor';
+import { useExamStore, usePersistedRef, usePersistedState, useSelectedConfig } from '../component/StoreUtils';
 import { useTranslation } from 'react-i18next';
 
 export const Examination = () => {
-	const { millisToTimeString, timeStringToMillis } = useUtils();
-	const [exam] = useExamStore();
 	const [selectedConfig] = useSelectedConfig();
-	const [excercise, setExcercise] = useState(0);
+	const [exam, setExam] = useExamStore();
+	if (selectedConfig === null) {
+		if (exam === null) {
+			window.location.hash = '#welcome';
+		} else {
+			window.location.hash = '#result';
+		}
+		return;
+	}
+
 	const { t } = useTranslation()
+	const { millisToTimeString, timeStringToMillis } = useUtils();
+
+	const [excercise, setExcercise] = usePersistedState('examNo', 0);
 
 	// One excercise time calculation
 	const [, setExcerciseStart] = useState(Date.now());
 	const [time, setTime] = useState('00:00');
 
 	// Total time calculation
-	const totalStart = useRef(Date.now());
+	const [totalStart, isLoaded] = usePersistedRef('totalStart', Date.now());
+
 	const totalLimit = useRef(timeStringToMillis(selectedConfig.limitTotalTime || '00:00'));
 	const [totalTime, setTotalTime] = useState(selectedConfig.limitTotalTime || '00:00');
 
 	const maxPlaces = (selectedConfig.firstOperandRangeMax + selectedConfig.secondOperandRangeMax).toString().length;
 
 	useEffect(() => {
-		const interval = setInterval(() => {
+		const refreshValues = () => {
 			setExcercise(ex => {
 				const e = exam[ex];
 				setExcerciseStart(s => {
 					const now = Date.now();
 					e.time = now - s;
+					setExam(exam);
 					const newTime = millisToTimeString(e.time);
 					setTime(c => c !== newTime ? newTime : c);
 					if (totalTime !== '00:00') {
@@ -46,10 +57,16 @@ export const Examination = () => {
 				})
 				return ex;
 			});
-		}, 200)
+		};
+		const interval = setInterval(refreshValues, 200)
+		refreshValues();
 
 		return () => clearInterval(interval);
 	}, []);
+
+	if (!isLoaded) {
+		return <div>Loading status!!!</div>
+	}
 
 	useEffect(() => {
 		if (exam.length > 0) {
@@ -89,17 +106,21 @@ export const Examination = () => {
 		setExcercise(e => e > 0 ? e - 1 : e)
 	}
 	const setResult = (newValue: number) => {
-		setExcercise(e => { exam[e].result = newValue; return e })
+		setExcercise(e => {
+			exam[e].result = newValue;
+			setExam(exam);
+			return e;
+		})
 	}
 
 	// Programmatically show/hide the keyboard when needed
-	const showKeyboard = () => {
-		if ('virtualKeyboard' in navigator) {
-			// @ts-ignore
-			navigator.virtualKeyboard.show();
-		}
-	};
-	showKeyboard();
+	// const showKeyboard = () => {
+	// 	if ('virtualKeyboard' in navigator) {
+	// 		// @ts-ignore
+	// 		navigator.virtualKeyboard.show();
+	// 	}
+	// };
+	// showKeyboard();
 
 	return exam && <>
 		<div class='header' style={{ flexDirection: 'column' }}>

@@ -14,7 +14,7 @@ export const BoxInput = (props: {
 }) => {
 	const [position, setPosition] = useState(props.direction === TypingDirection.LtoR ? 0 : props.positions - 1);
 	const [_, setRefresh] = useState(0);
-	const [showKeypad, setShowKeypad] = useState(false);
+	const [showKeypad, setShowKeypad] = useState(true);
 	const numbers = useRef(new Array(props.positions).fill(0));
 
 	const refresh = () => {
@@ -123,10 +123,8 @@ export const BoxInput = (props: {
 		});
 	}
 
-	console.log('KEYPAD: ' + showKeypad);
 	return <div>
 		{renderRow(props.positions)}
-			{'' + showKeypad}
 		{showKeypad && <div class='keypad'>
 			<div class='keypad-row'>
 				<Button text='1' action={() => press(1)} />

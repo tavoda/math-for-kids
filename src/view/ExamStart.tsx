@@ -43,7 +43,8 @@ export const ExamStart = () => {
 					<tr><td>{t('pageDownArrowDown', 'Page Down, Arrow Down')}</td><td>{t('nextQuestion', 'Next question')}</td></tr>
 					<tr><td>{t('arrowLeft', 'Arrow left')}</td><td>{t('moveCursorLeft', 'Move cursor left')}</td></tr>
 					<tr><td>{t('arrowRight', 'Arrow right')}</td><td>{t('moveCursorRight', 'Move cursor right')}</td></tr>
-					<tr><td>e</td><td>{t('eraseResult', 'Erase result and start over')}</td></tr>
+					<tr><td>e, x</td><td>{t('eraseResult', 'Erase result and start over')}</td></tr>
+					<tr><td>k</td><td>{t('showKeypad', 'Show/Hide keypad for entering result on screen')}</td></tr>
 					<tr><td>{t('backspaceDel', 'Backspace, Del')}</td><td>{t('returnBackOnePlace', 'Return back one place')}</td></tr>
 				</tbody>
 			</table>

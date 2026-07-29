@@ -1,13 +1,12 @@
 import { useEffect, useRef, useState } from "preact/hooks";
 import { Button } from "../component/Button"
-import { useExamStore } from "../component/StoreUtils"
+import { clearExamStore, clearStorage, useExamStore } from "../component/StoreUtils"
 import { useConfig } from "../component/ConfigUtils";
 import { useTranslation } from 'react-i18next';
 import i18next from 'i18next';
 
 export const Welcome = () => {
 	const { t } = useTranslation()
-	const [, setExam] = useExamStore();
 	const { getConfig } = useConfig();
 	const languages = useRef(i18next.languages);
 	const [lang, setLang] = useState(i18next.language);
@@ -18,7 +17,9 @@ export const Welcome = () => {
 	}
 
 	useEffect(() => {
-		setExam([]);
+		clearExamStore();
+		clearStorage("totalStart");
+		clearStorage("examNo");
 	}, []);
 
 	const startExcercise = (i: number) => {
