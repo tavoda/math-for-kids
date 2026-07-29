@@ -12,6 +12,14 @@
 	@apply px-5 py-2.5 bg-teal-700 justify-center items-center hover:bg-teal-900 text-gray-50 font-semibold rounded-lg shadow-md transition-colors duration-300 justify-center items-center
 }
 
+.keypad {
+	@apply flex flex-col gap-2 mt-10
+}
+
+.keypad-row {
+	@apply flex flex-row gap-2
+}
+
 :root {
   --text: #6b6375;
   --text-h: #08060d;
@@ -101,7 +109,7 @@ h2 {
   font-size: 24px;
   line-height: 118%;
   letter-spacing: -0.24px;
-  margin: 0 0 8px;
+  margin: 16px 0 8px;
   @media (max-width: 1024px) {
     font-size: 20px;
   }

@@ -24,7 +24,6 @@ export const Examination = () => {
 	const [totalTime, setTotalTime] = useState(selectedConfig.limitTotalTime || '00:00');
 
 	const maxPlaces = (selectedConfig.firstOperandRangeMax + selectedConfig.secondOperandRangeMax).toString().length;
-	console.log('NAME:', ConfigEditor.name);
 
 	useEffect(() => {
 		const interval = setInterval(() => {
